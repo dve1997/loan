@@ -15,6 +15,18 @@ export default class Slider {
       n = this.slides.length;
     }
 
+    try {
+      if (n === 3) {
+        setTimeout(() => {
+          this.hanson.classList.add("animated");
+          this.hanson.classList.add("slideInUp");
+          this.hanson.style.opacity = "1";
+        }, 3000);
+      } else {
+        this.hanson.classList.remove("slideInUp");
+      }
+    } catch (e) {}
+
     this.slides.forEach((slide) => {
       slide.style.display = "none";
     });
@@ -27,6 +39,12 @@ export default class Slider {
   }
 
   render() {
+    try {
+      this.hanson = document.querySelector(".hanson");
+
+      this.hanson.style.opacity = "0";
+    } catch (e) {}
+
     this.showSlides();
 
     this.btns.forEach((btn) => {
