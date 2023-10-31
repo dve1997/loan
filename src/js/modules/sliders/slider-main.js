@@ -1,10 +1,8 @@
-export default class Slider {
-  constructor(page, slides, btns, btnPageOne) {
-    this.page = document.querySelector(page);
-    this.slides = document.querySelectorAll(slides);
-    this.btns = document.querySelectorAll(btns);
-    this.btnsPrev = document.querySelectorAll(btnPageOne);
-    this.slidIndex = 1;
+import Slider from "./slider";
+
+export default class SliderMain extends Slider {
+  constructor(page, slides, btns, btnsPrev) {
+    super(page, slides, btns, btnsPrev);
   }
 
   showSlides(n) {
@@ -24,6 +22,7 @@ export default class Slider {
         }, 3000);
       } else {
         this.hanson.classList.remove("slideInUp");
+        this.hanson.style.opacity = "0";
       }
     } catch (e) {}
 
