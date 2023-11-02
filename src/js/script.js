@@ -3,8 +3,16 @@
 import SliderMain from "./modules/sliders/slider-main";
 import SliderMini from "./modules/sliders/slider-mini";
 import VideoPlayer from "./modules/playVideo";
+import LoadBlocks from "./modules/loadBlocks";
 
 window.addEventListener("DOMContentLoaded", (e) => {
+  const loadBlocks = new LoadBlocks({
+    oldOfficer: ".officerold",
+    newOfficer: ".officernew",
+    items: ".officer__card-item",
+  });
+  loadBlocks.init();
+
   const sliderMain = new SliderMain({
     slides: ".slide",
     btns: ".next",
