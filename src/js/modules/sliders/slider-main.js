@@ -1,12 +1,12 @@
 import Slider from "./slider";
 
 export default class SliderMain extends Slider {
-  constructor(page, slides, btns, btnsPrev) {
-    super(page, slides, btns, btnsPrev);
+  constructor(slides, btns, btnsPrev) {
+    super(slides, btns, btnsPrev);
   }
 
   showSlides(n) {
-    if (n > this.slides.length) {
+    if (n > this.slides.length - 1) {
       this.slidIndex = 1;
     }
     if (n < 1) {
