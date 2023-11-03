@@ -1,8 +1,8 @@
 import Slider from "./slider";
 
 export default class SliderMain extends Slider {
-  constructor(slides, btns, btnsPrev) {
-    super(slides, btns, btnsPrev);
+  constructor(slides, btns, btnsPrev, nextBtns, prevBtns) {
+    super(slides, btns, btnsPrev, nextBtns, prevBtns);
   }
 
   showSlides(n) {
@@ -12,17 +12,18 @@ export default class SliderMain extends Slider {
     if (n < 1) {
       n = this.slides.length;
     }
-
     try {
-      if (n === 3) {
-        setTimeout(() => {
-          this.hanson.classList.add("animated");
-          this.hanson.classList.add("slideInUp");
-          this.hanson.style.opacity = "1";
-        }, 3000);
-      } else {
-        this.hanson.classList.remove("slideInUp");
-        this.hanson.style.opacity = "0";
+      if (this.slides.closest(".slide")) {
+        if (n === 3) {
+          setTimeout(() => {
+            this.hanson.classList.add("animated");
+            this.hanson.classList.add("slideInUp");
+            this.hanson.style.opacity = "1";
+          }, 3000);
+        } else {
+          this.hanson.classList.remove("slideInUp");
+          this.hanson.style.opacity = "0";
+        }
       }
     } catch (e) {}
 
@@ -30,7 +31,9 @@ export default class SliderMain extends Slider {
       slide.style.display = "none";
     });
 
-    this.slides[this.slidIndex - 1].style.display = "block";
+    try {
+      this.slides[this.slidIndex - 1].style.display = "block";
+    } catch (e) {}
   }
 
   plusSlide(n) {
@@ -60,6 +63,24 @@ export default class SliderMain extends Slider {
 
         this.slidIndex = 1;
         this.showSlides();
+      });
+    });
+
+    this.nextBtns.forEach((next) => {
+      next.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.plusSlide(1);
+      });
+    });
+
+    this.prevBtns.forEach((prev) => {
+      prev.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.plusSlide(-1);
       });
     });
   }

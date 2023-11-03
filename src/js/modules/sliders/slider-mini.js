@@ -47,26 +47,28 @@ export default class SliderMini extends Slider {
   }
 
   init() {
-    this.container.style.cssText = `
-      display: flex;
-      flex-wrap: wrap;
-      overflow: hidden;
-      align-items: flex-start;
-    `;
-    if (this.container.matches(".feed__slider-cont")) {
+    try {
       this.container.style.cssText = `
-      display: flex;
-      flex-wrap: wrap;
-      overflow: hidden;
-      align-items: flex-start;
-      width: 2000px;
-    `;
-    }
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        align-items: flex-start;
+      `;
+      if (this.container.matches(".feed__slider-cont")) {
+        this.container.style.cssText = `
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        align-items: flex-start;
+        width: 2000px;
+      `;
+      }
 
-    this.switchSlides();
+      this.switchSlides();
 
-    if (this.auto) {
-      setInterval(() => this.plusSlide(), 5000);
-    }
+      if (this.auto) {
+        setInterval(() => this.plusSlide(), 5000);
+      }
+    } catch (e) {}
   }
 }

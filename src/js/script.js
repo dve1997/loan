@@ -7,26 +7,21 @@ import LoadBlocks from "./modules/loadBlocks";
 import Forms from "./modules/forms";
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const forms = new Forms({
-    forms: "form",
-    inputsEmail: ".email",
-    inputsPhone: ".phone",
-  });
-  forms.init();
-
-  const loadBlocks = new LoadBlocks({
-    oldOfficer: ".officerold",
-    newOfficer: ".officernew",
-    items: ".officer__card-item",
-  });
-  loadBlocks.init();
-
   const sliderMain = new SliderMain({
     slides: ".slide",
     btns: ".next",
     btnPageOne: ".previous",
   });
   sliderMain.render();
+
+  const sliderMainModules = new SliderMain({
+    slides: ".module",
+    btns: ".next",
+    btnPageOne: ".previous",
+    nextBtns: ".nextmodule",
+    nextBtns: ".prevmodule",
+  });
+  sliderMainModules.render();
 
   const sliderShowUp = new SliderMini({
     container: ".showup__content-slider",
@@ -53,6 +48,17 @@ window.addEventListener("DOMContentLoaded", (e) => {
   });
   sliderFeed.init();
 
-  const player = new VideoPlayer(".play", ".overlay", ".close");
-  player.init();
+  new LoadBlocks({
+    oldOfficer: ".officerold",
+    newOfficer: ".officernew",
+    items: ".officer__card-item",
+  }).init();
+
+  new Forms({
+    forms: "form",
+    inputsEmail: ".email",
+    inputsPhone: ".phone",
+  }).init();
+
+  new VideoPlayer(".play", ".overlay", ".close").init();
 });

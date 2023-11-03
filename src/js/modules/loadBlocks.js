@@ -3,8 +3,10 @@ export default class LoadBlocks {
     this.oldOfficer = document.querySelector(oldOfficer);
     this.newOfficer = document.querySelector(newOfficer);
     this.items = items;
-    this.oldItems = this.oldOfficer.querySelectorAll(items);
-    this.newItems = this.newOfficer.querySelectorAll(items);
+    try {
+      this.oldItems = this.oldOfficer.querySelectorAll(items);
+      this.newItems = this.newOfficer.querySelectorAll(items);
+    } catch (e) {}
     this.oldCount = 0;
     this.newCount = 0;
   }
@@ -30,10 +32,12 @@ export default class LoadBlocks {
   }
 
   init() {
-    this.hideBlocks(this.oldItems);
-    this.hideBlocks(this.newItems);
+    try {
+      this.hideBlocks(this.oldItems);
+      this.hideBlocks(this.newItems);
 
-    this.plusBlock(this.oldItems, this.oldCount);
-    this.plusBlock(this.newItems, this.newCount);
+      this.plusBlock(this.oldItems, this.oldCount);
+      this.plusBlock(this.newItems, this.newCount);
+    } catch (e) {}
   }
 }
