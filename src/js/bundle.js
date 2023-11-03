@@ -2,6 +2,107 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/forms.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/forms.js ***!
+  \*********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Forms; }
+/* harmony export */ });
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services/requests */ "./src/js/modules/services/requests.js");
+
+class Forms {
+  constructor() {
+    let {
+      forms,
+      inputsEmail,
+      inputsPhone
+    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    this.forms = document.querySelectorAll(forms);
+    this.inputsEmail = document.querySelectorAll(inputsEmail);
+    this.inputsPhone = document.querySelectorAll(inputsPhone);
+    this.message = {
+      loading: "Идет отправка данных...",
+      loaded: "Данные успешно отправлены. Мы скорос с Вами свяжемся!",
+      error: "Произошла ошибка, прошу повторить попытку отправки данных позже..."
+    };
+  }
+  sendingForm() {
+    this.forms.forEach(itemForm => {
+      itemForm.addEventListener("submit", e => {
+        e.preventDefault();
+        const data = new FormData(itemForm);
+        const infoBlock = document.createElement("div");
+        infoBlock.textContent = `${this.message.loading}`;
+        infoBlock.style.cssText = `
+         color: black;
+         font-weight: 900;
+         padding-top: 20px;
+         text-align: center;
+         `;
+        itemForm.append(infoBlock);
+        (0,_services_requests__WEBPACK_IMPORTED_MODULE_0__["default"])("assets/question.php", data).then(data => {
+          console.log(data);
+          infoBlock.textContent = `${this.message.loaded}`;
+        }).catch(error => {
+          console.log(error);
+          infoBlock.textContent = `${this.message.error}`;
+        }).finally(() => {
+          itemForm.reset();
+          setTimeout(() => infoBlock.remove(), 5000);
+        });
+      });
+    });
+  }
+  inputEmail() {
+    this.inputsEmail.forEach(input => {
+      input.addEventListener("keypress", e => {
+        if (e.key.match(/[^a-z 0-9 @]/gi)) {
+          e.preventDefault();
+        }
+      });
+    });
+  }
+  inputPhone(e) {
+    let matrix = "+1 (___) __ ___",
+      def = matrix.replace(/\D/g, ""),
+      val = this.value.replace(/\D/g, ""),
+      i = 0;
+    if (def.length >= val.length) {
+      val = def;
+    }
+    this.value = matrix.replace(/./g, function (a) {
+      return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? "" : a;
+    });
+    if (e.type === "blur") {
+      if (this.value.length == 2) {
+        this.value = "";
+      }
+    } else {
+      let pos = this.value.length,
+        elem = this;
+      elem.focus();
+      if (elem.setSelectionRange) {
+        elem.setSelectionRange(pos, pos);
+      }
+    }
+  }
+  init() {
+    this.sendingForm();
+    this.inputEmail();
+    this.inputsPhone.forEach(input => {
+      input.addEventListener("focus", this.inputPhone);
+      input.addEventListener("input", this.inputPhone);
+      input.addEventListener("blur", this.inputPhone);
+    });
+  }
+}
+
+/***/ }),
+
 /***/ "./src/js/modules/loadBlocks.js":
 /*!**************************************!*\
   !*** ./src/js/modules/loadBlocks.js ***!
@@ -107,6 +208,24 @@ class VideoPlayer {
 
 /***/ }),
 
+/***/ "./src/js/modules/services/requests.js":
+/*!*********************************************!*\
+  !*** ./src/js/modules/services/requests.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+const requset = async (url, data) => {
+  let resp = await fetch(url, {
+    method: "POST",
+    body: data
+  });
+  return await resp.text();
+};
+/* harmony default export */ __webpack_exports__["default"] = (requset);
+
+/***/ }),
+
 /***/ "./src/js/modules/sliders/slider-main.js":
 /*!***********************************************!*\
   !*** ./src/js/modules/sliders/slider-main.js ***!
@@ -124,7 +243,7 @@ class SliderMain extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
     super(slides, btns, btnsPrev);
   }
   showSlides(n) {
-    if (n > this.slides.length - 1) {
+    if (n > this.slides.length) {
       this.slidIndex = 1;
     }
     if (n < 1) {
@@ -236,95 +355,10 @@ class SliderMini extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
     `;
     }
     this.switchSlides();
-    setInterval(() => this.plusSlide(), 5000);
+    if (this.auto) {
+      setInterval(() => this.plusSlide(), 5000);
+    }
   }
-
-  // showSlides(n) {
-  //   if (n > this.slides.length) {
-  //     this.slidIndex = 1;
-  //   }
-  //   if (n < 1) {
-  //     this.slidIndex = this.slides.length;
-  //   }
-
-  //   this.conteiner.style.overflow = "hidden";
-
-  //   this.conteinerCh.style.display = "flex";
-
-  //   if (this.slides[0].closest(".card-one")) {
-  //     this.conteinerCh.style.minWidth = "2600px";
-
-  //     this.slides.forEach((slide) => {
-  //       slide.lastElementChild.style.opacity = "0";
-  //       slide.firstElementChild.lastElementChild.style.opacity = "0";
-  //       slide.style.minWidth = "300px";
-  //     });
-
-  //     this.slides[this.slidIndex - 1].lastElementChild.style.opacity = "1";
-  //     this.slides[
-  //       this.slidIndex - 1
-  //     ].firstElementChild.lastElementChild.style.opacity = "1";
-  //   } else if (this.slides[0].closest(".card-two")) {
-  //     this.conteinerCh.style.minWidth = "2600px";
-
-  //     this.slides.forEach((slide) => {
-  //       slide.querySelectorAll(
-  //         ".card__title, .card__description"
-  //       )[0].style.opacity = "0";
-  //       slide.querySelectorAll(
-  //         ".card__title, .card__description"
-  //       )[1].style.opacity = "0";
-  //       slide.firstElementChild.lastElementChild.style.opacity = "0";
-  //       slide.style.minWidth = "300px";
-  //     });
-
-  //     this.slides[this.slidIndex - 1].querySelectorAll(
-  //       ".card__title, .card__description"
-  //     )[0].style.opacity = "1";
-  //     this.slides[this.slidIndex - 1].querySelectorAll(
-  //       ".card__title, .card__description"
-  //     )[1].style.opacity = "1";
-  //     this.slides[
-  //       this.slidIndex - 1
-  //     ].firstElementChild.lastElementChild.style.opacity = "1";
-  //   } else {
-  //     this.conteinerCh.style.width = "100%";
-
-  //     this.slides.forEach((slide) => {
-  //       slide.classList.remove("feed__item-active");
-  //       slide.style.maxHeight = "341px";
-  //       slide.style.minHeight = "";
-  //     });
-
-  //     this.slides[this.slidIndex - 1].classList.add("feed__item-active");
-  //     this.slides[this.slidIndex - 1].style.minHeight = "420px";
-  //     this.slides[this.slidIndex - 1].style.maxHeight = "";
-  //   }
-
-  //   this.conteinerCh.style.transform = `translate(${
-  //     -12.5 * (this.slidIndex - 1)
-  //   }%, 0)`;
-  // }
-
-  // plusSlide(n) {
-  //   this.showSlides((this.slidIndex += n));
-  // }
-
-  // render() {
-  //   this.showSlides();
-
-  //   this.next.forEach((next) => {
-  //     next.addEventListener("click", (e) => {
-  //       this.plusSlide(1);
-  //     });
-  //   });
-
-  //   this.prev.forEach((prev) => {
-  //     prev.addEventListener("click", (e) => {
-  //       this.plusSlide(1);
-  //     });
-  //   });
-  // }
 }
 
 /***/ }),
@@ -432,6 +466,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/sliders/slider-mini */ "./src/js/modules/sliders/slider-mini.js");
 /* harmony import */ var _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/playVideo */ "./src/js/modules/playVideo.js");
 /* harmony import */ var _modules_loadBlocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/loadBlocks */ "./src/js/modules/loadBlocks.js");
+/* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
+
 
 
 
@@ -439,6 +475,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.addEventListener("DOMContentLoaded", e => {
+  const forms = new _modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"]({
+    forms: "form",
+    inputsEmail: ".email",
+    inputsPhone: ".phone"
+  });
+  forms.init();
   const loadBlocks = new _modules_loadBlocks__WEBPACK_IMPORTED_MODULE_3__["default"]({
     oldOfficer: ".officerold",
     newOfficer: ".officernew",
@@ -462,7 +504,8 @@ window.addEventListener("DOMContentLoaded", e => {
     container: ".modules__content-slider",
     next: ".modules__info-btns .slick-next",
     prev: ".modules__info-btns .slick-prev",
-    activeClass: "card-active"
+    activeClass: "card-active",
+    auto: true
   });
   sliderModules.init();
   const sliderFeed = new _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_1__["default"]({

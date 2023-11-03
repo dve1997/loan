@@ -4,8 +4,16 @@ import SliderMain from "./modules/sliders/slider-main";
 import SliderMini from "./modules/sliders/slider-mini";
 import VideoPlayer from "./modules/playVideo";
 import LoadBlocks from "./modules/loadBlocks";
+import Forms from "./modules/forms";
 
 window.addEventListener("DOMContentLoaded", (e) => {
+  const forms = new Forms({
+    forms: "form",
+    inputsEmail: ".email",
+    inputsPhone: ".phone",
+  });
+  forms.init();
+
   const loadBlocks = new LoadBlocks({
     oldOfficer: ".officerold",
     newOfficer: ".officernew",
@@ -33,6 +41,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     next: ".modules__info-btns .slick-next",
     prev: ".modules__info-btns .slick-prev",
     activeClass: "card-active",
+    auto: true,
   });
   sliderModules.init();
 
