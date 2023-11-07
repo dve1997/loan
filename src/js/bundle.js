@@ -2,6 +2,40 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/accordion.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/accordion.js ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Accordion; }
+/* harmony export */ });
+class Accordion {
+  constructor(btn, block) {
+    this.btn = document.querySelector(btn);
+    this.block = document.querySelector(block);
+  }
+  showBlock() {
+    this.btn.addEventListener("click", e => {
+      this.block.classList.add("animated");
+      if (window.getComputedStyle(this.block, null).display == "none") {
+        this.block.style.display = "block";
+        this.block.classList.add("fadeInUp");
+      } else {
+        this.block.style.display = "none";
+        this.block.classList.remove("fadeInUp");
+      }
+    });
+  }
+  init() {
+    this.showBlock();
+  }
+}
+
+/***/ }),
+
 /***/ "./src/js/modules/forms.js":
 /*!*********************************!*\
   !*** ./src/js/modules/forms.js ***!
@@ -534,6 +568,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/playVideo */ "./src/js/modules/playVideo.js");
 /* harmony import */ var _modules_loadBlocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/loadBlocks */ "./src/js/modules/loadBlocks.js");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
+/* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
+
 
 
 
@@ -589,6 +625,7 @@ window.addEventListener("DOMContentLoaded", e => {
     inputsPhone: ".phone"
   }).init();
   new _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"](".play", ".overlay", ".close").init();
+  new _modules_accordion__WEBPACK_IMPORTED_MODULE_5__["default"](".plus", ".msg").init();
 });
 }();
 /******/ })()
