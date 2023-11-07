@@ -6,6 +6,7 @@ import VideoPlayer from "./modules/playVideo";
 import LoadBlocks from "./modules/loadBlocks";
 import Forms from "./modules/forms";
 import Accordion from "./modules/accordion";
+import Download from "./modules/download";
 
 window.addEventListener("DOMContentLoaded", (e) => {
   const sliderMain = new SliderMain({
@@ -64,4 +65,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
   new VideoPlayer(".play", ".overlay", ".close").init();
 
   new Accordion(".plus", ".msg").init();
+
+  new Download(".download").init();
 });

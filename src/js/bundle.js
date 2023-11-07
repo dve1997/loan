@@ -14,23 +14,63 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 class Accordion {
   constructor(btn, block) {
-    this.btn = document.querySelector(btn);
-    this.block = document.querySelector(block);
+    this.btn = document.querySelectorAll(btn);
   }
   showBlock() {
-    this.btn.addEventListener("click", e => {
-      this.block.classList.add("animated");
-      if (window.getComputedStyle(this.block, null).display == "none") {
-        this.block.style.display = "block";
-        this.block.classList.add("fadeInUp");
-      } else {
-        this.block.style.display = "none";
-        this.block.classList.remove("fadeInUp");
-      }
+    this.btn.forEach(btn => {
+      btn.addEventListener("click", e => {
+        this.block = btn.closest(".module__info-show").nextElementSibling;
+        this.block.classList.add("animated");
+        if (window.getComputedStyle(this.block, null).display == "none") {
+          this.block.style.display = "block";
+          this.block.classList.add("fadeInUp");
+        } else {
+          this.block.style.display = "none";
+          this.block.classList.remove("fadeInUp");
+        }
+      });
     });
   }
   init() {
     this.showBlock();
+  }
+}
+
+/***/ }),
+
+/***/ "./src/js/modules/download.js":
+/*!************************************!*\
+  !*** ./src/js/modules/download.js ***!
+  \************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Download; }
+/* harmony export */ });
+class Download {
+  constructor(btn) {
+    this.btn = document.querySelectorAll(btn);
+    this.href = "assets/img/mainbg.jpg";
+  }
+  createElem() {
+    const link = document.createElement("a");
+    link.setAttribute("href", this.href);
+    link.setAttribute("download", "nice_picture");
+    link.style.display = "none";
+    document.body.append(link);
+    link.click();
+    link.remove(link);
+  }
+  downloadFile() {
+    this.btn.forEach(btn => {
+      btn.addEventListener("click", e => {
+        this.createElem();
+      });
+    });
+  }
+  init() {
+    this.downloadFile();
   }
 }
 
@@ -569,6 +609,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_loadBlocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/loadBlocks */ "./src/js/modules/loadBlocks.js");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
 /* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
+/* harmony import */ var _modules_download__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/download */ "./src/js/modules/download.js");
+
 
 
 
@@ -626,6 +668,7 @@ window.addEventListener("DOMContentLoaded", e => {
   }).init();
   new _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"](".play", ".overlay", ".close").init();
   new _modules_accordion__WEBPACK_IMPORTED_MODULE_5__["default"](".plus", ".msg").init();
+  new _modules_download__WEBPACK_IMPORTED_MODULE_6__["default"](".download").init();
 });
 }();
 /******/ })()
